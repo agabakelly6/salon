@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura Unisex Salon & Spa | Kampala's Premier Grooming & Wellness Sanctuary</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Alpine.js -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          charcoal: {
+            DEFAULT: '#121212',
+            light: '#1B1B1B',
+            card: '#1F1E1C',
+          },
+          gold: {
+            DEFAULT: '#D4AF37',
+            light: '#E8C766',
+            dark: '#A8842A',
+          },
+          cream: '#F5F1E8',
+        },
+        fontFamily: {
+          display: ['"Playfair Display"', 'serif'],
+          body: ['"Poppins"', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { background-color: #121212; font-family: 'Poppins', sans-serif; }
+
+  /* Gold "part line" divider motif */
+  .part-line {
+    position: relative;
+  }
+  .part-line::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -14px;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  }
+
+  .gold-hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #121212; }
+  ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+
+  /* Before/After slider */
+  .ba-slider-container {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+  }
+  .ba-after-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .ba-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #D4AF37;
+    cursor: ew-resize;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .ba-handle-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    background-color: #D4AF37;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+
+  /* Diagonal hero split for desktop */
+  @media (min-width: 1024px) {
+    .hero-diagonal-left {
+      clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
+    }
+    .hero-diagonal-right {
+      clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+  }
+
+  .placeholder-img {
+    background-color: #2A2A2A;
+    background-image:
+      linear-gradient(45deg, #2A2A2A 25%, transparent 25%),
+      linear-gradient(-45deg, #2A2A2A 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #2A2A2A 75%),
+      linear-gradient(-45deg, transparent 75%, #2A2A2A 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: #232323;
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.9s ease-out both;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+
+<body class="bg-charcoal text-cream font-body antialiased" x-data="{ bookingOpen: false }">
+
+<!-- ============ NAVBAR ============ -->
+<nav x-data="{ open: false }" class="fixed top-0 left-0 w-full z-50 bg-charcoal/90 backdrop-blur-md border-b border-gold/20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
+    <a href="#home" class="font-display text-2xl md:text-3xl font-bold text-cream tracking-wide">
+      AURA <span class="text-gold">|</span> <span class="text-sm md:text-base font-body font-light tracking-widest text-gold/90 align-middle">SALON &amp; SPA</span>
+    </a>
+
+    <div class="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wide">
+      <a href="#services" class="text-cream/80 hover:text-gold transition-colors duration-300">Services</a>
+      <a href="#transformations" class="text-cream/80 hover:text-gold transition-colors duration-300">Transformations</a>
+      <a href="#reviews" class="text-cream/80 hover:text-gold transition-colors duration-300">Reviews</a>
+      <a href="#visit" class="text-cream/80 hover:text-gold transition-colors duration-300">Visit Us</a>
+    </div>
+
+    <div class="hidden lg:flex items-center gap-4">
+      <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="flex items-center gap-2 text-sm font-medium text-cream/90 border border-cream/30 hover:border-gold hover:text-gold rounded-full px-5 py-2.5 transition-colors duration-300">
+        <i class="fa-brands fa-whatsapp text-lg"></i> Chat Now
+      </a>
+      <button @click="bookingOpen = true" class="bg-gold hover:bg-gold-light text-charcoal font-semibold text-sm rounded-full px-6 py-2.5 transition-colors duration-300 shadow-lg shadow-gold/20">
+        Book Appointment
+      </button>
+    </div>
+
+    <button @click="open = !open" class="lg:hidden text-cream text-2xl">
+      <i class="fa-solid" :class="open ? 'fa-xmark' : 'fa-bars'"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div x-show="open" x-cloak x-transition class="lg:hidden bg-charcoal-light border-t border-gold/20 px-6 py-6 flex flex-col gap-5">
+    <a @click="open=false" href="#services" class="text-cream/90 hover:text-gold text-base">Services</a>
+    <a @click="open=false" href="#transformations" class="text-cream/90 hover:text-gold text-base">Transformations</a>
+    <a @click="open=false" href="#reviews" class="text-cream/90 hover:text-gold text-base">Reviews</a>
+    <a @click="open=false" href="#visit" class="text-cream/90 hover:text-gold text-base">Visit Us</a>
+    <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 border border-cream/30 text-cream rounded-full px-5 py-3 mt-2">
+      <i class="fa-brands fa-whatsapp text-lg"></i> Chat on WhatsApp
+    </a>
+    <button @click="open=false; bookingOpen = true" class="bg-gold text-charcoal font-semibold rounded-full px-5 py-3 text-center">Book Appointment</button>
+  </div>
+</nav>
+
+<!-- ============ HERO SECTION ============ -->
+<section id="home" class="relative pt-20 min-h-screen flex flex-col lg:flex-row overflow-hidden">
+
+  <!-- Men's Side -->
+  <div class="hero-diagonal-left relative w-full lg:w-1/2 h-[45vh] lg:h-auto lg:min-h-screen">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('images/hero-men-grooming.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-charcoal/70 via-charcoal/40 to-charcoal/80"></div>
+  </div>
+
+  <!-- Women's Side -->
+  <div class="hero-diagonal-right relative w-full lg:w-1/2 h-[45vh] lg:h-auto lg:min-h-screen -mt-1 lg:mt-0">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('images/hero-women-styling.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-l from-charcoal/70 via-charcoal/40 to-charcoal/80"></div>
+  </div>
+
+  <!-- Center Content Overlay -->
+  <div class="absolute inset-0 flex items-center justify-center px-6">
+    <div class="max-w-3xl text-center fade-in-up">
+      <p class="uppercase tracking-[0.35em] text-gold text-xs md:text-sm font-semibold mb-5">Kampala's Unisex Sanctuary</p>
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] text-cream drop-shadow-2xl">
+        Elevate Your Look.<br class="hidden sm:block"> Refresh Your Mind.
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-cream/85 max-w-2xl mx-auto leading-relaxed">
+        Kampala's premier unisex sanctuary. Enjoy precision barbering, elite hair styling, and deeply rejuvenating spa treatments all under one roof.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button @click="bookingOpen = true" class="w-full sm:w-auto bg-gold hover:bg-gold-light text-charcoal font-semibold text-base rounded-full px-8 py-4 transition-all duration-300 shadow-xl shadow-gold/30 hover:scale-105">
+          <i class="fa-solid fa-calendar-check mr-2"></i> Book an Appointment
+        </button>
+        <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="w-full sm:w-auto flex items-center justify-center gap-2 border-2 border-cream/60 hover:border-gold hover:text-gold text-cream font-semibold text-base rounded-full px-8 py-4 transition-all duration-300">
+          <i class="fa-brands fa-whatsapp text-xl"></i> Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-gold/70 text-xl animate-bounce hidden md:block">
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ============ TRUST BANNER STRIP ============ -->
+<div class="bg-gold text-charcoal py-3">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center text-sm md:text-base font-semibold tracking-wide">
+    <span><i class="fa-solid fa-bolt"></i> Never in the dark: Full solar &amp; generator backup system active.</span>
+    <span class="hidden sm:inline">•</span>
+    <span><i class="fa-solid fa-clock"></i> Open Daily: 8:00 AM – 9:00 PM</span>
+  </div>
+</div>
+
+<!-- ============ SERVICES SECTION (DUAL PATHWAY) ============ -->
+<section id="services" class="py-20 md:py-28 px-6 max-w-7xl mx-auto">
+  <div class="text-center mb-16 part-line pb-6">
+    <p class="uppercase tracking-[0.35em] text-gold text-xs md:text-sm font-semibold mb-4">Our Craft</p>
+    <h2 class="font-display text-3xl md:text-5xl font-bold text-cream">Two Paths. One Standard of Excellence.</h2>
+    <p class="mt-4 text-cream/70 max-w-2xl mx-auto">Whether you're here to sharpen your edge or elevate your elegance, every service is delivered with precision, sterilized tools, and uncompromising care.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    <!-- COLUMN A: MEN -->
+    <div class="bg-charcoal-card border border-gold/20 rounded-2xl p-8 md:p-10 hover:border-gold/50 transition-colors duration-300">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-14 h-14 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl">
+          <i class="fa-solid fa-scissors"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-2xl md:text-3xl font-bold text-cream">Men's Executive Grooming</h3>
+          <p class="text-cream/50 text-sm">Sharp. Precise. Uncompromising.</p>
+        </div>
+      </div>
+
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Precision Fades &amp; Taper Cuts</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Beard Sculpting &amp; Hot Towel Treatment</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Hair Dye / Tinting &amp; Gray Blend</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Locks Styling &amp; Interlocking</span>
+        </li>
+        <li class="flex items-start gap-3 pb-2">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Men's Manicure &amp; Pedicure</span>
+        </li>
+      </ul>
+
+      <a href="#" class="inline-flex items-center gap-2 mt-8 text-gold font-semibold hover:text-gold-light transition-colors duration-300">
+        View Barber Rates <i class="fa-solid fa-arrow-right text-sm"></i>
+      </a>
+    </div>
+
+    <!-- COLUMN B: WOMEN -->
+    <div class="bg-charcoal-card border border-gold/20 rounded-2xl p-8 md:p-10 hover:border-gold/50 transition-colors duration-300">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-14 h-14 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl">
+          <i class="fa-solid fa-spa"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-2xl md:text-3xl font-bold text-cream">Women's Luxury Sanctuary</h3>
+          <p class="text-cream/50 text-sm">Elegant. Radiant. Transformative.</p>
+        </div>
+      </div>
+
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Custom Braiding, Knots &amp; Weaves</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Silk Presses &amp; Hair Relaxing</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Professional Wash, Set &amp; Blowout</span>
+        </li>
+        <li class="flex items-start gap-3 border-b border-cream/10 pb-4">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Luxury Wigs Installation &amp; Care</span>
+        </li>
+        <li class="flex items-start gap-3 pb-2">
+          <i class="fa-solid fa-check text-gold mt-1"></i>
+          <span class="text-cream/90">Acrylic &amp; Gel Nail Extensions</span>
+        </li>
+      </ul>
+
+      <a href="#" class="inline-flex items-center gap-2 mt-8 text-gold font-semibold hover:text-gold-light transition-colors duration-300">
+        View Styling Rates <i class="fa-solid fa-arrow-right text-sm"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FULL WIDTH: SHARED PREMIUM SPA & PACKAGES -->
+  <div class="mt-8 bg-gradient-to-br from-charcoal-card to-charcoal border border-gold/30 rounded-2xl p-8 md:p-12">
+    <div class="text-center mb-12">
+      <p class="uppercase tracking-[0.3em] text-gold text-xs md:text-sm font-semibold mb-3">For Everyone</p>
+      <h3 class="font-display text-2xl md:text-4xl font-bold text-cream">Shared Premium Spa &amp; Special Packages</h3>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center px-4">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl mb-5">
+          <i class="fa-solid fa-face-smile-relaxed"></i>
+        </div>
+        <h4 class="font-display text-xl font-semibold text-cream mb-2">Facial Therapies</h4>
+        <p class="text-cream/70 text-sm leading-relaxed">Deep cleansing facials, gentle steaming, and skin-renewing treatments tailored to every skin type.</p>
+      </div>
+
+      <div class="text-center px-4">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl mb-5">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+        </div>
+        <h4 class="font-display text-xl font-semibold text-cream mb-2">Massage Oasis</h4>
+        <p class="text-cream/70 text-sm leading-relaxed">Deep tissue and hot stone massage therapies designed to release tension and restore balance.</p>
+      </div>
+
+      <div class="text-center px-4">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl mb-5">
+          <i class="fa-solid fa-ring"></i>
+        </div>
+        <h4 class="font-display text-xl font-semibold text-cream mb-2">Bridal &amp; Groom Packages</h4>
+        <p class="text-cream/70 text-sm leading-relaxed">All-inclusive wedding prep for the couple — from bridal glam to groom grooming, on your big day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEFORE & AFTER TRANSFORMATION WIDGET ============ -->
+<section id="transformations" class="py-20 md:py-28 px-6 max-w-7xl mx-auto">
+  <div class="text-center mb-16 part-line pb-6">
+    <p class="uppercase tracking-[0.35em] text-gold text-xs md:text-sm font-semibold mb-4">Proof in the Details</p>
+    <h2 class="font-display text-3xl md:text-5xl font-bold text-cream">Real Transformations</h2>
+    <p class="mt-4 text-cream/70 max-w-2xl mx-auto">Drag the gold divider to reveal the difference our hands make.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+    <!-- SLIDER CARD 1: BARBER FADE -->
+    <div x-data="{
+        pos: 50,
+        dragging: false,
+        startDrag() { this.dragging = true },
+        stopDrag() { this.dragging = false },
+        move(e) {
+          if (!this.dragging) return;
+          const rect = this.$refs.slider.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          let x = ((clientX - rect.left) / rect.width) * 100;
+          this.pos = Math.min(100, Math.max(0, x));
+        }
+      }"
+      @mouseup.window="stopDrag()" @touchend.window="stopDrag()"
+      @mousemove.window="move($event)" @touchmove.window="move($event)"
+      class="bg-charcoal-card border border-gold/20 rounded-2xl overflow-hidden">
+
+      <div x-ref="slider" class="ba-slider-container w-full aspect-[4/3]">
+        <!-- AFTER (base layer, full width) -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('images/fade-after.jpg');"></div>
+
+        <!-- BEFORE (clipped layer, revealed on left of handle) -->
+        <div class="ba-after-layer" :style="`width: ${pos}%`">
+          <div class="absolute inset-0 bg-cover bg-center" :style="`width: ${$refs.slider.offsetWidth}px; background-image: url('images/fade-before.jpg');`"></div>
+        </div>
+
+        <!-- Labels -->
+        <span class="absolute top-4 left-4 bg-charcoal/80 text-gold text-xs font-bold tracking-widest px-3 py-1 rounded-full z-10">BEFORE</span>
+        <span class="absolute top-4 right-4 bg-gold/90 text-charcoal text-xs font-bold tracking-widest px-3 py-1 rounded-full z-10">AFTER</span>
+
+        <!-- Handle -->
+        <div class="ba-handle" :style="`left: ${pos}%`" @mousedown="startDrag()" @touchstart="startDrag()">
+          <div class="ba-handle-circle">
+            <i class="fa-solid fa-arrows-left-right text-charcoal text-sm"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <h4 class="font-display text-xl font-semibold text-cream mb-1">Precision Barber Fade</h4>
+        <p class="text-cream/60 text-sm">A sharp, clean taper — sculpted to perfection by our master barbers.</p>
+      </div>
+    </div>
+
+    <!-- SLIDER CARD 2: HAIR / NAIL TRANSFORMATION -->
+    <div x-data="{
+        pos: 50,
+        dragging: false,
+        startDrag() { this.dragging = true },
+        stopDrag() { this.dragging = false },
+        move(e) {
+          if (!this.dragging) return;
+          const rect = this.$refs.slider2.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          let x = ((clientX - rect.left) / rect.width) * 100;
+          this.pos = Math.min(100, Math.max(0, x));
+        }
+      }"
+      @mouseup.window="stopDrag()" @touchend.window="stopDrag()"
+      @mousemove.window="move($event)" @touchmove.window="move($event)"
+      class="bg-charcoal-card border border-gold/20 rounded-2xl overflow-hidden">
+
+      <div x-ref="slider2" class="ba-slider-container w-full aspect-[4/3]">
+        <!-- AFTER (base layer, full width) -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('images/glamour-after.jpg');"></div>
+
+        <!-- BEFORE (clipped layer) -->
+        <div class="ba-after-layer" :style="`width: ${pos}%`">
+          <div class="absolute inset-0 bg-cover bg-center" :style="`width: ${$refs.slider2.offsetWidth}px; background-image: url('images/glamour-before.jpg');`"></div>
+        </div>
+
+        <!-- Labels -->
+        <span class="absolute top-4 left-4 bg-charcoal/80 text-gold text-xs font-bold tracking-widest px-3 py-1 rounded-full z-10">BEFORE</span>
+        <span class="absolute top-4 right-4 bg-gold/90 text-charcoal text-xs font-bold tracking-widest px-3 py-1 rounded-full z-10">AFTER</span>
+
+        <!-- Handle -->
+        <div class="ba-handle" :style="`left: ${pos}%`" @mousedown="startDrag()" @touchstart="startDrag()">
+          <div class="ba-handle-circle">
+            <i class="fa-solid fa-arrows-left-right text-charcoal text-sm"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <h4 class="font-display text-xl font-semibold text-cream mb-1">Glamour Hair &amp; Nail Reveal</h4>
+        <p class="text-cream/60 text-sm">From natural to dramatic — a full styling and nail extension makeover.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ SOCIAL PROOF / REVIEWS ============ -->
+<section id="reviews" class="py-20 md:py-28 px-6 bg-charcoal-light">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 part-line pb-6">
+      <p class="uppercase tracking-[0.35em] text-gold text-xs md:text-sm font-semibold mb-4">Client Love</p>
+      <h2 class="font-display text-3xl md:text-5xl font-bold text-cream">Trusted by Kampala's Finest</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Review 1 -->
+      <div class="bg-charcoal-card border border-gold/20 rounded-2xl p-8 flex flex-col">
+        <div class="flex gap-1 text-gold mb-5">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-cream/85 leading-relaxed mb-6 flex-1">"Absolutely the cleanest salon I've ever been to. They sterilize every single tool right in front of you before use — that alone earned my loyalty. My fade was flawless."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-cream/10">
+          <div class="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold font-display">D</div>
+          <div>
+            <p class="font-semibold text-cream text-sm">Derrick K.</p>
+            <p class="text-cream/50 text-xs">Verified Client</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="bg-charcoal-card border border-gold/20 rounded-2xl p-8 flex flex-col">
+        <div class="flex gap-1 text-gold mb-5">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-cream/85 leading-relaxed mb-6 flex-1">"Aura did my full bridal package and I could not have asked for better care. The team was patient, gentle, and made sure every detail — hair, nails, skin — was picture-perfect for my big day."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-cream/10">
+          <div class="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold font-display">S</div>
+          <div>
+            <p class="font-semibold text-cream text-sm">Sandra N.</p>
+            <p class="text-cream/50 text-xs">Bridal Client</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="bg-charcoal-card border border-gold/20 rounded-2xl p-8 flex flex-col">
+        <div class="flex gap-1 text-gold mb-5">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-cream/85 leading-relaxed mb-6 flex-1">"Power went out during my appointment and I didn't even notice until the lights flickered back — their backup generator kicked in instantly. Uninterrupted, professional, and stress-free."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-cream/10">
+          <div class="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold font-display">A</div>
+          <div>
+            <p class="font-semibold text-cream text-sm">Alvin O.</p>
+            <p class="text-cream/50 text-xs">Verified Client</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT / LOGISTICS SECTION ============ -->
+<section id="visit" class="py-20 md:py-28 px-6 max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+    <!-- Map Placeholder -->
+    <div class="w-full aspect-[4/3] rounded-2xl border border-gold/20 overflow-hidden">
+      <iframe
+        src="https://www.google.com/maps?q=Kibuli+Hospital,+Kampala,+Uganda&output=embed"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade" title="Aura Salon & Spa location near Kibuli Hospital, Kampala">
+      </iframe>
+    </div>
+
+    <!-- Logistics Info -->
+    <div>
+      <p class="uppercase tracking-[0.35em] text-gold text-xs md:text-sm font-semibold mb-4">Visit The Sanctuary</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-cream mb-8">Come Experience Aura</h2>
+
+      <div class="space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 flex-shrink-0 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-cream">Our Address</p>
+            <p class="text-cream/70 text-sm">Kibuli, near Kibuli Hospital, Kampala, Uganda</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 flex-shrink-0 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-cream">Opening Hours</p>
+            <p class="text-cream/70 text-sm">Open Daily: 8:00 AM – 9:00 PM</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 flex-shrink-0 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-cream">Payments Accepted</p>
+            <p class="text-cream/70 text-sm">Mobile Money (MTN &amp; Airtel), Cash, and Visa/Mastercard.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 flex-shrink-0 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-cream">Always Powered</p>
+            <p class="text-cream/70 text-sm">Full solar &amp; generator backup — your appointment never stops.</p>
+          </div>
+        </div>
+      </div>
+
+      <button @click="bookingOpen = true" class="inline-flex items-center gap-2 mt-10 bg-gold hover:bg-gold-light text-charcoal font-semibold rounded-full px-8 py-4 transition-all duration-300 shadow-lg shadow-gold/20">
+        <i class="fa-solid fa-calendar-check"></i> Book Your Appointment
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="book" class="bg-charcoal-light border-t border-gold/20 pt-16 pb-28 md:pb-16 px-6">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <h3 class="font-display text-2xl font-bold text-cream mb-4">AURA <span class="text-gold">|</span> SALON &amp; SPA</h3>
+        <p class="text-cream/60 text-sm leading-relaxed max-w-sm">Kampala's premier unisex sanctuary for precision barbering, elite hair styling, and rejuvenating spa treatments — all under one roof.</p>
+        <div class="flex gap-4 mt-6">
+          <a href="#" class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-charcoal transition-colors duration-300"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-charcoal transition-colors duration-300"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-charcoal transition-colors duration-300"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-charcoal transition-colors duration-300"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-cream mb-4 tracking-wide">Quick Links</h4>
+        <ul class="space-y-3 text-sm text-cream/60">
+          <li><a href="#services" class="hover:text-gold transition-colors duration-300">Services</a></li>
+          <li><a href="#transformations" class="hover:text-gold transition-colors duration-300">Transformations</a></li>
+          <li><a href="#reviews" class="hover:text-gold transition-colors duration-300">Reviews</a></li>
+          <li><a href="#visit" class="hover:text-gold transition-colors duration-300">Visit Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-cream mb-4 tracking-wide">Contact</h4>
+        <ul class="space-y-3 text-sm text-cream/60">
+          <li><i class="fa-solid fa-phone text-gold mr-2"></i>+256 700 000 000</li>
+          <li><i class="fa-solid fa-envelope text-gold mr-2"></i>hello@aurasalonspa.com</li>
+          <li><i class="fa-solid fa-location-dot text-gold mr-2"></i>Kibuli, near Kibuli Hospital</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gold-hairline mb-8"></div>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-cream/40">
+      <p>&copy; 2026 Aura Unisex Salon &amp; Spa. All rights reserved.</p>
+      <p>Mobile Money, Cash &amp; Card payments accepted.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE BOOK BUTTON ============ -->
+<div class="fixed bottom-0 left-0 w-full md:hidden z-40 bg-charcoal border-t border-gold/30 px-6 py-3 flex gap-3">
+  <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="flex-1 flex items-center justify-center gap-2 border border-cream/30 text-cream font-medium rounded-full py-3 text-sm">
+    <i class="fa-brands fa-whatsapp"></i> Chat
+  </a>
+  <button @click="bookingOpen = true" class="flex-1 flex items-center justify-center gap-2 bg-gold text-charcoal font-semibold rounded-full py-3 text-sm">
+    <i class="fa-solid fa-calendar-check"></i> Book Now
+  </button>
+</div>
+
+<!-- ============ BOOKING MODAL (Call / Email) ============ -->
+<div x-show="bookingOpen" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center px-6"
+     style="display: none;">
+  <div class="absolute inset-0 bg-charcoal/80 backdrop-blur-sm" @click="bookingOpen = false"></div>
+
+  <div x-show="bookingOpen"
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0 scale-95"
+       x-transition:enter-end="opacity-100 scale-100"
+       class="relative bg-charcoal-card border border-gold/30 rounded-2xl w-full max-w-sm p-8 text-center shadow-2xl">
+
+    <button @click="bookingOpen = false" class="absolute top-4 right-4 text-cream/50 hover:text-gold text-xl">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="w-14 h-14 mx-auto rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl mb-5">
+      <i class="fa-solid fa-calendar-check"></i>
+    </div>
+
+    <h3 class="font-display text-2xl font-bold text-cream mb-2">Book Your Appointment</h3>
+    <p class="text-cream/60 text-sm mb-8">Choose how you'd like to reach us and we'll get you booked in.</p>
+
+    <div class="flex flex-col gap-4">
+      <a href="tel:+256700000000" class="flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-charcoal font-semibold rounded-full px-6 py-3.5 transition-colors duration-300">
+        <i class="fa-solid fa-phone"></i> Call Us Now
+      </a>
+      <a href="mailto:hello@aurasalonspa.com?subject=Appointment%20Booking%20Request" class="flex items-center justify-center gap-2 border border-gold/50 text-gold hover:bg-gold hover:text-charcoal font-semibold rounded-full px-6 py-3.5 transition-colors duration-300">
+        <i class="fa-solid fa-envelope"></i> Email Us
+      </a>
+      <a href="https://wa.me/256700000000" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 text-cream/70 hover:text-gold font-medium text-sm mt-1">
+        <i class="fa-brands fa-whatsapp"></i> or chat on WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
